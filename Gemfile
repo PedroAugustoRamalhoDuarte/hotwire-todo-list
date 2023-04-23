@@ -64,3 +64,6 @@ end
 
 
 gem 'vite_rails'
+
+
+gem 'turbo-rails'

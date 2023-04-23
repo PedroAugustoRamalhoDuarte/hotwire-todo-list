@@ -6,5 +6,8 @@
     "vite": "^4.3.1",
     "vite-plugin-rails": "^0.1.0",
     "vite-plugin-ruby": "^3.2.1"
+  },
+  "dependencies": {
+    "@hotwired/turbo-rails": "^7.3.0"
   }
 }
