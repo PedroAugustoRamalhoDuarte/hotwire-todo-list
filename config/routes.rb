@@ -5,5 +5,5 @@ Rails.application.routes.draw do
   # root "articles#index"
   root "todos#index"
 
-  resources :todos, only: [:index, :create, :destroy]
+  resources :todos
 end

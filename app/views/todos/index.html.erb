@@ -1,30 +1,23 @@
-<div class="container-sm px-4 mx-auto mt-26">
+<div class="container px-4 mx-auto pt-26">
   <div class="flex justify-between">
     <h1 class="text-3xl font-bold underline">
       Minha lista de tarefas
     </h1>
 
-    <button class="border-2 border-handwrite border-black p-2">
-      Nova tarefa
-    </button>
+
+    <%= link_to "Nova tarefa",
+                new_todo_path,
+                data: { turbo_stream: true },
+                class: "border-2 border-handwrite border-black p-2"
+    %>
   </div>
 
+  <%= turbo_frame_tag "new_todo" do %>
+  <% end %>
 
-  <% @todos.each do |todo| %>
-    <%= turbo_frame_tag "todo_#{todo.id}" do %>
-      <div class="flex justify-between border-2 border-handwrite border-black mt-5 p-3">
-        <%= todo.name %>
-        <div class="flex gap-2">
-          <button class="border-2 border-handwrite border-black p-2">
-            Edit
-          </button>
-          <%= button_to "Remover",
-                        todo_path(todo.id),
-                        method: :delete,
-                        class: "border-2 border-handwrite border-black p-2"
-          %>
-        </div>
-      </div>
+  <%= turbo_frame_tag "todos" do %>
+    <% @todos.each do |todo| %>
+      <%= render 'todos/todo', todo: todo %>
     <% end %>
   <% end %>
 </div>
