@@ -1,5 +1,5 @@
-import React, {useState} from "react";
-
+import React, {useEffect, useState} from "react";
+import {router} from '@inertiajs/react'
 
 const Todos = ({todosData}) => {
   const [todos, setTodos] = useState(todosData.map((todo) => {
@@ -8,8 +8,24 @@ const Todos = ({todosData}) => {
       editing: false
     }
   }));
+  const [newTodoName, setNewTodoName] = useState('');
+
+  useEffect(() => {
+    setTodos(todosData.map((todo) => {
+      return {
+        ...todo,
+        editing: false
+      }
+    }));
+  }, [todosData])
 
 
+  const editTodo = (todo, e) => {
+    e.preventDefault();
+    router.patch(`/inertia/todos/${todo.id}`, {
+      name: todo.name,
+    })
+  }
   const toggleEditing = (todoId) => {
     setTodos(todos.map((todo) => {
       if (todo.id === todoId) {
@@ -24,7 +40,7 @@ const Todos = ({todosData}) => {
   }
 
   const removeTodo = (todoId) => {
-    setTodos(todos.filter((todo) => todo.id !== todoId))
+    router.delete(`/inertia/todos/${todoId}`)
   }
 
   return (
@@ -37,10 +53,23 @@ const Todos = ({todosData}) => {
       {todos.map((todo) => {
         if (todo.editing) {
           return (
-            <form>
+            <form onSubmit={(e) => editTodo(todo, e)}>
               <div className="mb-4">
-                <input placeholder="Nome da tarefa"
-                       className="form-input mt-1 block w-full border-2 border-handwrite border-black p-2"/>
+                <input
+                  type="text"
+                  value={todo.name}
+                  onChange={(e) => setTodos((todos) => todos.map((todoEdit) => {
+                    if (todoEdit.id === todo.id) {
+                      return {
+                        ...todoEdit,
+                        name: e.target.value
+                      }
+                    } else {
+                      return todoEdit;
+                    }
+                  }))}
+                  placeholder="Nome da tarefa"
+                  className="form-input mt-1 block w-full border-2 border-handwrite border-black p-2"/>
               </div>
               <div className="flex items-center justify-between">
                 <button className="border-2 border-handwrite border-black p-2" onClick="submit">

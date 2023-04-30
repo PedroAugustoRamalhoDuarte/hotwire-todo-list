@@ -4,6 +4,6 @@ Rails.application.routes.draw do
   resources :todos
 
   scope "/inertia" do
-    resources :todos, controller: "inertia/todos"
+    resources :todos, controller: "inertia/todos", as: "inertia_todos"
   end
 end
