@@ -8,6 +8,7 @@ const Todos = ({todosData}) => {
       editing: false
     }
   }));
+  const [showNewForm, setShowNewForm] = useState(false);
   const [newTodoName, setNewTodoName] = useState('');
 
   useEffect(() => {
@@ -19,6 +20,15 @@ const Todos = ({todosData}) => {
     }));
   }, [todosData])
 
+
+  const createTodo = (e) => {
+    e.preventDefault();
+    router.post('/inertia/todos', {
+      name: newTodoName,
+    })
+    // setNewTodoName('');
+    // setShowNewForm(false);
+  }
 
   const editTodo = (todo, e) => {
     e.preventDefault();
@@ -49,7 +59,37 @@ const Todos = ({todosData}) => {
         <h1 className="text-3xl font-bold underline">
           Minha lista de tarefas
         </h1>
+        <button className="border-2 border-handwrite border-black p-2 mt-5"
+                onClick={() => setShowNewForm(true)}>
+          Adicionar nova tarefa
+        </button>
       </div>
+
+      {
+        showNewForm && (
+          <form onSubmit={(e) => createTodo(e)}>
+            <div className="mb-4">
+              <input
+                type="text"
+                value={newTodoName}
+                onChange={(e) => setNewTodoName(e.target.value)}
+                placeholder="Nome da tarefa"
+                className="form-input mt-1 block w-full border-2 border-handwrite border-black p-2"/>
+            </div>
+            <div className="flex items-center justify-between">
+              <button
+                className="border-2 border-handwrite border-black p-2"
+                type="submit">
+                Enviar
+              </button>
+              <button className="border-2 border-handwrite border-black p-2"
+                      onClick={() => setShowNewForm(false)}>
+                Cancelar
+              </button>
+            </div>
+          </form>
+        )
+      }
       {todos.map((todo) => {
         if (todo.editing) {
           return (

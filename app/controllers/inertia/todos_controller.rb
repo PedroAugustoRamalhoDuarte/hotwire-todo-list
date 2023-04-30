@@ -8,8 +8,7 @@ class Inertia::TodosController < ApplicationController
   end
 
   def create
-    todo = Todo.find(params[:id])
-    todo.update!(name: params[:name])
+    Todo.create!(name: params[:name])
     redirect_to inertia_todos_path
   end
 
