@@ -62,8 +62,8 @@ group :test do
   gem "webdrivers"
 end
 
-
 gem 'vite_rails'
 
-
 gem 'turbo-rails'
+
+gem 'inertia_rails'
